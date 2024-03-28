@@ -10,9 +10,7 @@ This serverless service verifies user email IDs using Google Cloud Functions. Up
 
 1. **Prerequisites**: Ensure you have a GCP account with billing enabled, Google Cloud SDK installed, and necessary permissions to create resources.
 
-2. **Configuration**: Update `config.yaml` with email server details and templates.
-
-3. **Deployment**: Deploy the Cloud Function using `gcloud functions deploy`.
+3. **Deployment**: Deploy the Cloud Function using `terraform apply` after zipping the directory.
 
 4. **Testing**: Test by creating a new user account and verifying the email.
 
