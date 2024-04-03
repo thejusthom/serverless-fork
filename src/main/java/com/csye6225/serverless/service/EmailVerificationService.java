@@ -51,7 +51,7 @@ public class EmailVerificationService implements CloudEventsFunction {
     public void accept(CloudEvent cloudEvent) {
         String cloudEventData = new String(Objects.requireNonNull(cloudEvent.getData()).toBytes());
         Gson gson = new Gson();
-        String verifyBaseUrl = "http://thejusthomson.me:8080/v1/user/verify?";
+        String verifyBaseUrl = "https://thejusthomson.me/v1/user/verify?";
         MessagePublishedData data = gson.fromJson(cloudEventData, MessagePublishedData.class);
         Message message = data.getMessage();
         String encodedMessage = message.getData();
