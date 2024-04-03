@@ -94,7 +94,7 @@ public class EmailVerificationService implements CloudEventsFunction {
 
             logger.info("Inside insertMailSentTimeToDB");
 
-            String sql = "UPDATE webapp.user set verification_mail_sent_time = NOW() where username=?";
+            String sql = "UPDATE webapp.user set verification_link_expiration_time = DATE_ADD(NOW(), INTERVAL 2 MINUTE) where username=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,username);
             statement.execute();
