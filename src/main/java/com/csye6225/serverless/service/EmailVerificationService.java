@@ -27,7 +27,7 @@ public class EmailVerificationService implements CloudEventsFunction {
     private static final String DB_URL = System.getenv("DB_URL");
     private static final String DB_USERNAME = System.getenv("DB_USERNAME");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
-
+    private static final String MAILGUN_API_KEY = System.getenv("MAILGUN_API_KEY");
     Logger logger = LoggerFactory.getLogger(EmailVerificationService.class);
     public void sendEmailVerification() {
         String verifyBaseUrl = "http://localhost:8080/v1/user/verify?";
@@ -51,7 +51,7 @@ public class EmailVerificationService implements CloudEventsFunction {
     public void accept(CloudEvent cloudEvent) {
         String cloudEventData = new String(Objects.requireNonNull(cloudEvent.getData()).toBytes());
         Gson gson = new Gson();
-        String verifyBaseUrl = "http://thejusthomson.me:8080/v1/user/verify?";
+        String verifyBaseUrl = "https://thejusthomson.me/v1/user/verify?";
         MessagePublishedData data = gson.fromJson(cloudEventData, MessagePublishedData.class);
         Message message = data.getMessage();
         String encodedMessage = message.getData();
@@ -61,7 +61,7 @@ public class EmailVerificationService implements CloudEventsFunction {
         String token = parts[1];
         String verificationLink = verifyBaseUrl + "username=" + username + "&token=" + token;
         Unirest.post("https://api.mailgun.net/v3/" + "thejusthomson.me" + "/messages")
-                .basicAuth("api", "8a485137a99060e4b44205a16de392aa-f68a26c9-e1226ae7")
+                .basicAuth("api", MAILGUN_API_KEY)
                 .queryString("from", "Verification <noreply@thejusthomson.me>")
                 .queryString("to", decodedMessage)
                 .queryString("subject", "Webapp - Verification Link")
